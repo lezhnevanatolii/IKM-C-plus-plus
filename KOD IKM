@@ -1,0 +1,1798 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <ctime>
+#include <sstream>
+#include <iomanip>
+#include <limits>
+#include <map>
+#include <memory>
+
+
+class Customer {
+public:
+    Customer(int id, const std::string& lastName, const std::string& firstName,
+             const std::string& patronymic, const std::string& email,
+             const std::string& phone);
+    
+    int getId() const;
+    std::string getLastName() const;
+    std::string getFirstName() const;
+    std::string getPatronymic() const;
+    std::string getFullName() const;
+    std::string getEmail() const;
+    std::string getPhone() const;
+    
+    void setEmail(const std::string& email);
+    void setPhone(const std::string& phone);
+    void display() const;
+    
+private:
+    int customerId;
+    std::string lastName;
+    std::string firstName;
+    std::string patronymic;
+    std::string email;
+    std::string phone;
+};
+
+Customer::Customer(int id, const std::string& lastName, const std::string& firstName,
+                   const std::string& patronymic, const std::string& email,
+                   const std::string& phone)
+    : customerId(id), lastName(lastName), firstName(firstName),
+      patronymic(patronymic), email(email), phone(phone) {}
+
+int Customer::getId() const {
+    return customerId;
+}
+
+std::string Customer::getLastName() const {
+    return lastName;
+}
+
+std::string Customer::getFirstName() const {
+    return firstName;
+}
+
+std::string Customer::getPatronymic() const {
+    return patronymic;
+}
+
+std::string Customer::getFullName() const {
+    return lastName + " " + firstName + " " + patronymic;
+}
+
+std::string Customer::getEmail() const {
+    return email;
+}
+
+std::string Customer::getPhone() const {
+    return phone;
+}
+
+void Customer::setEmail(const std::string& newEmail) {
+    email = newEmail;
+}
+
+void Customer::setPhone(const std::string& newPhone) {
+    phone = newPhone;
+}
+
+void Customer::display() const {
+    std::cout << "ID: " << customerId << "\n";
+    std::cout << "ФИО: " << getFullName() << "\n";
+    std::cout << "Email: " << email << "\n";
+    std::cout << "Телефон: " << phone << "\n";
+    std::cout << "------------------------\n";
+}
+
+
+
+class ProductCategory {
+public:
+    ProductCategory(int id, const std::string& name, const std::string& description);
+    
+    int getId() const;
+    std::string getName() const;
+    std::string getDescription() const;
+    
+    void setName(const std::string& name);
+    void setDescription(const std::string& description);
+    void display() const;
+    
+private:
+    int categoryId;
+    std::string name;
+    std::string description;
+};
+
+ProductCategory::ProductCategory(int id, const std::string& name, const std::string& description)
+    : categoryId(id), name(name), description(description) {}
+
+int ProductCategory::getId() const {
+    return categoryId;
+}
+
+std::string ProductCategory::getName() const {
+    return name;
+}
+
+std::string ProductCategory::getDescription() const {
+    return description;
+}
+
+void ProductCategory::setName(const std::string& newName) {
+    name = newName;
+}
+
+void ProductCategory::setDescription(const std::string& newDescription) {
+    description = newDescription;
+}
+
+void ProductCategory::display() const {
+    std::cout << "Категория ID: " << categoryId << "\n";
+    std::cout << "Название: " << name << "\n";
+    std::cout << "Описание: " << description << "\n";
+    std::cout << "------------------------\n";
+}
+
+
+
+class Product {
+public:
+    Product(int id, const std::string& name, const std::string& description,
+            int categoryId, double price, int stockQuantity,
+            const std::string& imageUrl = "");
+    
+    int getId() const;
+    std::string getName() const;
+    std::string getDescription() const;
+    int getCategoryId() const;
+    double getPrice() const;
+    int getStockQuantity() const;
+    std::string getImageUrl() const;
+    
+    void setName(const std::string& name);
+    void setDescription(const std::string& description);
+    void setCategoryId(int categoryId);
+    void setPrice(double price);
+    void setStockQuantity(int quantity);
+    void setImageUrl(const std::string& url);
+    
+    bool reduceStock(int quantity);
+    bool increaseStock(int quantity);
+    void display() const;
+    
+private:
+    int productId;
+    std::string name;
+    std::string description;
+    int categoryId;
+    double price;
+    int stockQuantity;
+    std::string imageUrl;
+};
+
+Product::Product(int id, const std::string& name, const std::string& description,
+                 int categoryId, double price, int stockQuantity,
+                 const std::string& imageUrl)
+    : productId(id), name(name), description(description),
+      categoryId(categoryId), price(price), stockQuantity(stockQuantity),
+      imageUrl(imageUrl) {}
+
+int Product::getId() const {
+    return productId;
+}
+
+std::string Product::getName() const {
+    return name;
+}
+
+std::string Product::getDescription() const {
+    return description;
+}
+
+int Product::getCategoryId() const {
+    return categoryId;
+}
+
+double Product::getPrice() const {
+    return price;
+}
+
+int Product::getStockQuantity() const {
+    return stockQuantity;
+}
+
+std::string Product::getImageUrl() const {
+    return imageUrl;
+}
+
+void Product::setName(const std::string& newName) {
+    name = newName;
+}
+
+void Product::setDescription(const std::string& newDescription) {
+    description = newDescription;
+}
+
+void Product::setCategoryId(int newCategoryId) {
+    categoryId = newCategoryId;
+}
+
+void Product::setPrice(double newPrice) {
+    price = newPrice;
+}
+
+void Product::setStockQuantity(int quantity) {
+    stockQuantity = quantity;
+}
+
+void Product::setImageUrl(const std::string& url) {
+    imageUrl = url;
+}
+
+bool Product::reduceStock(int quantity) {
+    if (quantity <= 0 || quantity > stockQuantity) {
+        return false;
+    }
+    stockQuantity -= quantity;
+    return true;
+}
+
+bool Product::increaseStock(int quantity) {
+    if (quantity <= 0) {
+        return false;
+    }
+    stockQuantity += quantity;
+    return true;
+}
+
+void Product::display() const {
+    std::cout << "Товар ID: " << productId << "\n";
+    std::cout << "Название: " << name << "\n";
+    std::cout << "Описание: " << description << "\n";
+    std::cout << "Категория ID: " << categoryId << "\n";
+    std::cout << "Цена: " << std::fixed << std::setprecision(2) << price << " руб.\n";
+    std::cout << "Остаток: " << stockQuantity << " шт.\n";
+    if (!imageUrl.empty()) {
+        std::cout << "Изображение: " << imageUrl << "\n";
+    }
+    std::cout << "------------------------\n";
+}
+
+
+
+class OrderItem {
+public:
+    OrderItem(int productId, int quantity, double unitPrice);
+    
+    int getProductId() const;
+    int getQuantity() const;
+    double getUnitPrice() const;
+    double getTotalPrice() const;
+    
+    void setQuantity(int quantity);
+    void setUnitPrice(double price);
+    void display() const;
+    
+private:
+    int productId;
+    int quantity;
+    double unitPrice;
+};
+
+OrderItem::OrderItem(int productId, int quantity, double unitPrice)
+    : productId(productId), quantity(quantity), unitPrice(unitPrice) {}
+
+int OrderItem::getProductId() const {
+    return productId;
+}
+
+int OrderItem::getQuantity() const {
+    return quantity;
+}
+
+double OrderItem::getUnitPrice() const {
+    return unitPrice;
+}
+
+double OrderItem::getTotalPrice() const {
+    return quantity * unitPrice;
+}
+
+void OrderItem::setQuantity(int newQuantity) {
+    quantity = newQuantity;
+}
+
+void OrderItem::setUnitPrice(double newPrice) {
+    unitPrice = newPrice;
+}
+
+void OrderItem::display() const {
+    std::cout << "Товар ID: " << productId << "\n";
+    std::cout << "Количество: " << quantity << "\n";
+    std::cout << "Цена за шт.: " << std::fixed << std::setprecision(2) << unitPrice << " руб.\n";
+    std::cout << "Сумма: " << getTotalPrice() << " руб.\n";
+    std::cout << "------------------------\n";
+}
+
+
+
+enum class OrderStatus {
+    CREATED,
+    PAID,
+    ASSEMBLED,
+    SHIPPED,
+    DELIVERED,
+    CANCELLED
+};
+
+
+
+class Order {
+public:
+    Order(int id, int customerId, int deliveryAddressId,
+          const std::string& notes = "");
+    
+    int getId() const;
+    int getCustomerId() const;
+    int getDeliveryAddressId() const;
+    std::string getOrderDate() const;
+    OrderStatus getStatus() const;
+    std::string getStatusString() const;
+    std::string getNotes() const;
+    double getTotalAmount() const;
+    const std::vector<OrderItem>& getItems() const;
+    
+    void setCustomerId(int customerId);
+    void setDeliveryAddressId(int addressId);
+    void setStatus(OrderStatus status);
+    void setNotes(const std::string& notes);
+    
+    bool addItem(const OrderItem& item);
+    bool removeItem(int productId);
+    bool updateItemQuantity(int productId, int newQuantity);
+    void clearItems();
+    
+    void display() const;
+    void displayDetailed() const;
+    
+private:
+    int orderId;
+    int customerId;
+    int deliveryAddressId;
+    std::time_t orderDate;
+    OrderStatus status;
+    std::string notes;
+    std::vector<OrderItem> items;
+    
+    double calculateTotal() const;
+};
+
+Order::Order(int id, int customerId, int deliveryAddressId, const std::string& notes)
+    : orderId(id), customerId(customerId), deliveryAddressId(deliveryAddressId),
+      status(OrderStatus::CREATED), notes(notes) {
+    orderDate = std::time(nullptr);
+}
+
+int Order::getId() const {
+    return orderId;
+}
+
+int Order::getCustomerId() const {
+    return customerId;
+}
+
+int Order::getDeliveryAddressId() const {
+    return deliveryAddressId;
+}
+
+std::string Order::getOrderDate() const {
+    char buffer[80];
+    std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", std::localtime(&orderDate));
+    return std::string(buffer);
+}
+
+OrderStatus Order::getStatus() const {
+    return status;
+}
+
+std::string Order::getStatusString() const {
+    switch (status) {
+        case OrderStatus::CREATED: return "Создан";
+        case OrderStatus::PAID: return "Оплачен";
+        case OrderStatus::ASSEMBLED: return "Собран";
+        case OrderStatus::SHIPPED: return "Отправлен";
+        case OrderStatus::DELIVERED: return "Доставлен";
+        case OrderStatus::CANCELLED: return "Отменен";
+        default: return "Неизвестно";
+    }
+}
+
+std::string Order::getNotes() const {
+    return notes;
+}
+
+double Order::getTotalAmount() const {
+    return calculateTotal();
+}
+
+const std::vector<OrderItem>& Order::getItems() const {
+    return items;
+}
+
+void Order::setCustomerId(int newCustomerId) {
+    customerId = newCustomerId;
+}
+
+void Order::setDeliveryAddressId(int newAddressId) {
+    deliveryAddressId = newAddressId;
+}
+
+void Order::setStatus(OrderStatus newStatus) {
+    status = newStatus;
+}
+
+void Order::setNotes(const std::string& newNotes) {
+    notes = newNotes;
+}
+
+bool Order::addItem(const OrderItem& item) {
+    for (auto& existingItem : items) {
+        if (existingItem.getProductId() == item.getProductId()) {
+            return false;
+        }
+    }
+    items.push_back(item);
+    return true;
+}
+
+bool Order::removeItem(int productId) {
+    for (auto it = items.begin(); it != items.end(); ++it) {
+        if (it->getProductId() == productId) {
+            items.erase(it);
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Order::updateItemQuantity(int productId, int newQuantity) {
+    for (auto& item : items) {
+        if (item.getProductId() == productId) {
+            item.setQuantity(newQuantity);
+            return true;
+        }
+    }
+    return false;
+}
+
+void Order::clearItems() {
+    items.clear();
+}
+
+double Order::calculateTotal() const {
+    double total = 0.0;
+    for (const auto& item : items) {
+        total += item.getTotalPrice();
+    }
+    return total;
+}
+
+void Order::display() const {
+    std::cout << "Заказ ID: " << orderId << "\n";
+    std::cout << "Дата: " << getOrderDate() << "\n";
+    std::cout << "Клиент ID: " << customerId << "\n";
+    std::cout << "Статус: " << getStatusString() << "\n";
+    std::cout << "Сумма: " << std::fixed << std::setprecision(2) << calculateTotal() << " руб.\n";
+    std::cout << "------------------------\n";
+}
+
+void Order::displayDetailed() const {
+    display();
+    std::cout << "Адрес доставки ID: " << deliveryAddressId << "\n";
+    if (!notes.empty()) {
+        std::cout << "Примечания: " << notes << "\n";
+    }
+    std::cout << "\nСостав заказа:\n";
+    for (const auto& item : items) {
+        item.display();
+    }
+    std::cout << "Итого: " << std::fixed << std::setprecision(2) << calculateTotal() << " руб.\n";
+}
+
+
+
+class DeliveryAddress {
+public:
+    DeliveryAddress(int id, int customerId, const std::string& city,
+                    const std::string& street, const std::string& building,
+                    const std::string& apartment = "", bool isPrimary = false);
+    
+    int getId() const;
+    int getCustomerId() const;
+    std::string getCity() const;
+    std::string getStreet() const;
+    std::string getBuilding() const;
+    std::string getApartment() const;
+    bool isPrimary() const;
+    std::string getFullAddress() const;
+    
+    void setCity(const std::string& city);
+    void setStreet(const std::string& street);
+    void setBuilding(const std::string& building);
+    void setApartment(const std::string& apartment);
+    void setPrimary(bool primary);
+    
+    void display() const;
+    
+private:
+    int addressId;
+    int customerId;
+    std::string city;
+    std::string street;
+    std::string building;
+    std::string apartment;
+    bool primary;
+};
+
+DeliveryAddress::DeliveryAddress(int id, int customerId, const std::string& city,
+                                 const std::string& street, const std::string& building,
+                                 const std::string& apartment, bool isPrimary)
+    : addressId(id), customerId(customerId), city(city), street(street),
+      building(building), apartment(apartment), primary(isPrimary) {}
+
+int DeliveryAddress::getId() const {
+    return addressId;
+}
+
+int DeliveryAddress::getCustomerId() const {
+    return customerId;
+}
+
+std::string DeliveryAddress::getCity() const {
+    return city;
+}
+
+std::string DeliveryAddress::getStreet() const {
+    return street;
+}
+
+std::string DeliveryAddress::getBuilding() const {
+    return building;
+}
+
+std::string DeliveryAddress::getApartment() const {
+    return apartment;
+}
+
+bool DeliveryAddress::isPrimary() const {
+    return primary;
+}
+
+std::string DeliveryAddress::getFullAddress() const {
+    std::string result = city + ", " + street + ", д. " + building;
+    if (!apartment.empty()) {
+        result += ", кв. " + apartment;
+    }
+    return result;
+}
+
+void DeliveryAddress::setCity(const std::string& newCity) {
+    city = newCity;
+}
+
+void DeliveryAddress::setStreet(const std::string& newStreet) {
+    street = newStreet;
+}
+
+void DeliveryAddress::setBuilding(const std::string& newBuilding) {
+    building = newBuilding;
+}
+
+void DeliveryAddress::setApartment(const std::string& newApartment) {
+    apartment = newApartment;
+}
+
+void DeliveryAddress::setPrimary(bool isPrimary) {
+    primary = isPrimary;
+}
+
+void DeliveryAddress::display() const {
+    std::cout << "Адрес ID: " << addressId << "\n";
+    std::cout << "Клиент ID: " << customerId << "\n";
+    std::cout << "Адрес: " << getFullAddress() << "\n";
+    std::cout << "Основной: " << (primary ? "Да" : "Нет") << "\n";
+    std::cout << "------------------------\n";
+}
+
+
+
+class Employee {
+public:
+    Employee(int id, const std::string& lastName, const std::string& firstName,
+             const std::string& patronymic, const std::string& position);
+    
+    int getId() const;
+    std::string getLastName() const;
+    std::string getFirstName() const;
+    std::string getPatronymic() const;
+    std::string getFullName() const;
+    std::string getPosition() const;
+    
+    void setLastName(const std::string& lastName);
+    void setFirstName(const std::string& firstName);
+    void setPatronymic(const std::string& patronymic);
+    void setPosition(const std::string& position);
+    
+    void display() const;
+    
+private:
+    int employeeId;
+    std::string lastName;
+    std::string firstName;
+    std::string patronymic;
+    std::string position;
+};
+
+Employee::Employee(int id, const std::string& lastName, const std::string& firstName,
+                   const std::string& patronymic, const std::string& position)
+    : employeeId(id), lastName(lastName), firstName(firstName),
+      patronymic(patronymic), position(position) {}
+
+int Employee::getId() const {
+    return employeeId;
+}
+
+std::string Employee::getLastName() const {
+    return lastName;
+}
+
+std::string Employee::getFirstName() const {
+    return firstName;
+}
+
+std::string Employee::getPatronymic() const {
+    return patronymic;
+}
+
+std::string Employee::getFullName() const {
+    return lastName + " " + firstName + " " + patronymic;
+}
+
+std::string Employee::getPosition() const {
+    return position;
+}
+
+void Employee::setLastName(const std::string& newLastName) {
+    lastName = newLastName;
+}
+
+void Employee::setFirstName(const std::string& newFirstName) {
+    firstName = newFirstName;
+}
+
+void Employee::setPatronymic(const std::string& newPatronymic) {
+    patronymic = newPatronymic;
+}
+
+void Employee::setPosition(const std::string& newPosition) {
+    position = newPosition;
+}
+
+void Employee::display() const {
+    std::cout << "Сотрудник ID: " << employeeId << "\n";
+    std::cout << "ФИО: " << getFullName() << "\n";
+    std::cout << "Должность: " << position << "\n";
+    std::cout << "------------------------\n";
+}
+
+
+
+class Database {
+public:
+    static Database& getInstance();
+    
+    Database(const Database&) = delete;
+    Database& operator=(const Database&) = delete;
+    
+    void initializeSampleData();
+    
+    int getNextCustomerId();
+    int getNextProductId();
+    int getNextOrderId();
+    int getNextCategoryId();
+    int getNextAddressId();
+    int getNextEmployeeId();
+    
+    void addCustomer(const Customer& customer);
+    void addProduct(const Product& product);
+    void addCategory(const ProductCategory& category);
+    void addOrder(const Order& order);
+    void addAddress(const DeliveryAddress& address);
+    void addEmployee(const Employee& employee);
+    
+    Customer* findCustomerById(int id);
+    Product* findProductById(int id);
+    ProductCategory* findCategoryById(int id);
+    Order* findOrderById(int id);
+    DeliveryAddress* findAddressById(int id);
+    Employee* findEmployeeById(int id);
+    
+    std::vector<Customer*> findCustomersByName(const std::string& name);
+    std::vector<Product*> findProductsByName(const std::string& name);
+    std::vector<Product*> findProductsByCategory(int categoryId);
+    std::vector<Order*> findOrdersByCustomer(int customerId);
+    std::vector<DeliveryAddress*> findAddressesByCustomer(int customerId);
+    
+    const std::vector<Customer>& getAllCustomers() const;
+    const std::vector<Product>& getAllProducts() const;
+    const std::vector<ProductCategory>& getAllCategories() const;
+    const std::vector<Order>& getAllOrders() const;
+    const std::vector<DeliveryAddress>& getAllAddresses() const;
+    const std::vector<Employee>& getAllEmployees() const;
+    
+    bool updateProductStock(int productId, int quantityChange);
+    bool updateOrderStatus(int orderId, OrderStatus newStatus);
+    
+    int getCustomerCount() const;
+    int getProductCount() const;
+    int getOrderCount() const;
+    int getCategoryCount() const;
+    int getAddressCount() const;
+    int getEmployeeCount() const;
+    
+private:
+    Database();
+    
+    std::vector<Customer> customers;
+    std::vector<Product> products;
+    std::vector<ProductCategory> categories;
+    std::vector<Order> orders;
+    std::vector<DeliveryAddress> addresses;
+    std::vector<Employee> employees;
+    
+    int nextCustomerId;
+    int nextProductId;
+    int nextOrderId;
+    int nextCategoryId;
+    int nextAddressId;
+    int nextEmployeeId;
+};
+
+Database& Database::getInstance() {
+    static Database instance;
+    return instance;
+}
+
+Database::Database() 
+    : nextCustomerId(1), nextProductId(1), nextOrderId(1), 
+      nextCategoryId(1), nextAddressId(1), nextEmployeeId(1) {}
+
+int Database::getNextCustomerId() { return nextCustomerId++; }
+int Database::getNextProductId() { return nextProductId++; }
+int Database::getNextOrderId() { return nextOrderId++; }
+int Database::getNextCategoryId() { return nextCategoryId++; }
+int Database::getNextAddressId() { return nextAddressId++; }
+int Database::getNextEmployeeId() { return nextEmployeeId++; }
+
+void Database::initializeSampleData() {
+    addCategory(ProductCategory(getNextCategoryId(), "Смартфоны", "Мобильные телефоны"));
+    addCategory(ProductCategory(getNextCategoryId(), "Ноутбуки", "Портативные компьютеры"));
+    addCategory(ProductCategory(getNextCategoryId(), "Аксессуары", "Чехлы, наушники"));
+    
+    addProduct(Product(getNextProductId(), "iPhone 15", "Смартфон Apple", 1, 89999.99, 10));
+    addProduct(Product(getNextProductId(), "Samsung Galaxy S23", "Смартфон Samsung", 1, 69999.99, 15));
+    addProduct(Product(getNextProductId(), "MacBook Pro 16", "Ноутбук Apple", 2, 199999.99, 5));
+    addProduct(Product(getNextProductId(), "Чехол для iPhone", "Силиконовый чехол", 3, 1999.99, 50));
+    
+    addCustomer(Customer(getNextCustomerId(), "Иванов", "Иван", "Иванович", "ivanov@mail.ru", "+79161234567"));
+    addCustomer(Customer(getNextCustomerId(), "Петров", "Петр", "Петрович", "petrov@mail.ru", "+79167654321"));
+    
+    addAddress(DeliveryAddress(getNextAddressId(), 1, "Москва", "Ленина", "10", "25", true));
+    addAddress(DeliveryAddress(getNextAddressId(), 2, "Санкт-Петербург", "Невский", "5", "10", true));
+    
+    addEmployee(Employee(getNextEmployeeId(), "Сидорова", "Мария", "Ивановна", "Менеджер"));
+    addEmployee(Employee(getNextEmployeeId(), "Кузнецов", "Алексей", "Сергеевич", "Курьер"));
+    
+    Order order1(getNextOrderId(), 1, 1, "Доставить до 18:00");
+    order1.addItem(OrderItem(1, 1, 89999.99));
+    order1.addItem(OrderItem(4, 2, 1999.99));
+    order1.setStatus(OrderStatus::PAID);
+    addOrder(order1);
+    
+    Order order2(getNextOrderId(), 2, 2);
+    order2.addItem(OrderItem(2, 1, 69999.99));
+    order2.setStatus(OrderStatus::DELIVERED);
+    addOrder(order2);
+}
+
+void Database::addCustomer(const Customer& customer) {
+    customers.push_back(customer);
+}
+
+void Database::addProduct(const Product& product) {
+    products.push_back(product);
+}
+
+void Database::addCategory(const ProductCategory& category) {
+    categories.push_back(category);
+}
+
+void Database::addOrder(const Order& order) {
+    orders.push_back(order);
+}
+
+void Database::addAddress(const DeliveryAddress& address) {
+    addresses.push_back(address);
+}
+
+void Database::addEmployee(const Employee& employee) {
+    employees.push_back(employee);
+}
+
+Customer* Database::findCustomerById(int id) {
+    for (auto& customer : customers) {
+        if (customer.getId() == id) {
+            return &customer;
+        }
+    }
+    return nullptr;
+}
+
+Product* Database::findProductById(int id) {
+    for (auto& product : products) {
+        if (product.getId() == id) {
+            return &product;
+        }
+    }
+    return nullptr;
+}
+
+ProductCategory* Database::findCategoryById(int id) {
+    for (auto& category : categories) {
+        if (category.getId() == id) {
+            return &category;
+        }
+    }
+    return nullptr;
+}
+
+Order* Database::findOrderById(int id) {
+    for (auto& order : orders) {
+        if (order.getId() == id) {
+            return &order;
+        }
+    }
+    return nullptr;
+}
+
+DeliveryAddress* Database::findAddressById(int id) {
+    for (auto& address : addresses) {
+        if (address.getId() == id) {
+            return &address;
+        }
+    }
+    return nullptr;
+}
+
+Employee* Database::findEmployeeById(int id) {
+    for (auto& employee : employees) {
+        if (employee.getId() == id) {
+            return &employee;
+        }
+    }
+    return nullptr;
+}
+
+std::vector<Customer*> Database::findCustomersByName(const std::string& name) {
+    std::vector<Customer*> result;
+    std::string lowerName = name;
+    std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
+    
+    for (auto& customer : customers) {
+        std::string fullName = customer.getFullName();
+        std::transform(fullName.begin(), fullName.end(), fullName.begin(), ::tolower);
+        
+        if (fullName.find(lowerName) != std::string::npos) {
+            result.push_back(&customer);
+        }
+    }
+    return result;
+}
+
+std::vector<Product*> Database::findProductsByName(const std::string& name) {
+    std::vector<Product*> result;
+    std::string lowerName = name;
+    std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
+    
+    for (auto& product : products) {
+        std::string productName = product.getName();
+        std::transform(productName.begin(), productName.end(), productName.begin(), ::tolower);
+        
+        if (productName.find(lowerName) != std::string::npos) {
+            result.push_back(&product);
+        }
+    }
+    return result;
+}
+
+std::vector<Product*> Database::findProductsByCategory(int categoryId) {
+    std::vector<Product*> result;
+    for (auto& product : products) {
+        if (product.getCategoryId() == categoryId) {
+            result.push_back(&product);
+        }
+    }
+    return result;
+}
+
+std::vector<Order*> Database::findOrdersByCustomer(int customerId) {
+    std::vector<Order*> result;
+    for (auto& order : orders) {
+        if (order.getCustomerId() == customerId) {
+            result.push_back(&order);
+        }
+    }
+    return result;
+}
+
+std::vector<DeliveryAddress*> Database::findAddressesByCustomer(int customerId) {
+    std::vector<DeliveryAddress*> result;
+    for (auto& address : addresses) {
+        if (address.getCustomerId() == customerId) {
+            result.push_back(&address);
+        }
+    }
+    return result;
+}
+
+const std::vector<Customer>& Database::getAllCustomers() const {
+    return customers;
+}
+
+const std::vector<Product>& Database::getAllProducts() const {
+    return products;
+}
+
+const std::vector<ProductCategory>& Database::getAllCategories() const {
+    return categories;
+}
+
+const std::vector<Order>& Database::getAllOrders() const {
+    return orders;
+}
+
+const std::vector<DeliveryAddress>& Database::getAllAddresses() const {
+    return addresses;
+}
+
+const std::vector<Employee>& Database::getAllEmployees() const {
+    return employees;
+}
+
+bool Database::updateProductStock(int productId, int quantityChange) {
+    Product* product = findProductById(productId);
+    if (!product) return false;
+    
+    int newStock = product->getStockQuantity() + quantityChange;
+    if (newStock < 0) return false;
+    
+    product->setStockQuantity(newStock);
+    return true;
+}
+
+bool Database::updateOrderStatus(int orderId, OrderStatus newStatus) {
+    Order* order = findOrderById(orderId);
+    if (!order) return false;
+    
+    order->setStatus(newStatus);
+    return true;
+}
+
+int Database::getCustomerCount() const { return customers.size(); }
+int Database::getProductCount() const { return products.size(); }
+int Database::getOrderCount() const { return orders.size(); }
+int Database::getCategoryCount() const { return categories.size(); }
+int Database::getAddressCount() const { return addresses.size(); }
+int Database::getEmployeeCount() const { return employees.size(); }
+
+
+
+class InputUtils {
+public:
+    static int getIntegerInput(const std::string& prompt, int min, int max);
+    static double getDoubleInput(const std::string& prompt, double min, double max);
+    static std::string getStringInput(const std::string& prompt, int minLength, int maxLength);
+    static std::string getEmailInput(const std::string& prompt);
+    static std::string getPhoneInput(const std::string& prompt);
+    static void clearScreen();
+    static void pause();
+    
+private:
+    static bool isValidEmail(const std::string& email);
+    static bool isValidPhone(const std::string& phone);
+};
+
+class StringUtils {
+public:
+    static std::string toLowerCase(const std::string& str);
+    static std::string trim(const std::string& str);
+    static bool containsOnlyLetters(const std::string& str);
+    static bool containsOnlyDigits(const std::string& str);
+};
+
+int InputUtils::getIntegerInput(const std::string& prompt, int min, int max) {
+    int value;
+    while (true) {
+        std::cout << prompt;
+        std::string input;
+        std::getline(std::cin, input);
+        std::stringstream ss(input);
+        
+        if (ss >> value && ss.eof()) {
+            if (value >= min && value <= max) {
+                return value;
+            }
+        }
+        std::cout << "Ошибка: введите целое число от " << min << " до " << max << "\n";
+    }
+}
+
+double InputUtils::getDoubleInput(const std::string& prompt, double min, double max) {
+    double value;
+    while (true) {
+        std::cout << prompt;
+        std::string input;
+        std::getline(std::cin, input);
+        std::stringstream ss(input);
+        
+        if (ss >> value && ss.eof()) {
+            if (value >= min && value <= max) {
+                return value;
+            }
+        }
+        std::cout << "Ошибка: введите число от " << min << " до " << max << "\n";
+    }
+}
+
+std::string InputUtils::getStringInput(const std::string& prompt, int minLength, int maxLength) {
+    std::string value;
+    while (true) {
+        std::cout << prompt;
+        std::getline(std::cin, value);
+        StringUtils::trim(value);
+        
+        if (value.length() >= minLength && value.length() <= maxLength) {
+            return value;
+        }
+        std::cout << "Ошибка: длина должна быть от " << minLength << " до " << maxLength << " символов\n";
+    }
+}
+
+std::string InputUtils::getEmailInput(const std::string& prompt) {
+    std::string email;
+    while (true) {
+        email = getStringInput(prompt, 5, 255);
+        if (isValidEmail(email)) {
+            return email;
+        }
+        std::cout << "Ошибка: некорректный email адрес\n";
+    }
+}
+
+std::string InputUtils::getPhoneInput(const std::string& prompt) {
+    std::string phone;
+    while (true) {
+        phone = getStringInput(prompt, 10, 20);
+        if (isValidPhone(phone)) {
+            return phone;
+        }
+        std::cout << "Ошибка: некорректный номер телефона\n";
+    }
+}
+
+bool InputUtils::isValidEmail(const std::string& email) {
+    size_t at = email.find('@');
+    if (at == std::string::npos || at == 0 || at == email.length() - 1) {
+        return false;
+    }
+    
+    size_t dot = email.find('.', at);
+    if (dot == std::string::npos || dot == at + 1 || dot == email.length() - 1) {
+        return false;
+    }
+    
+    return true;
+}
+
+bool InputUtils::isValidPhone(const std::string& phone) {
+    if (phone.empty()) return false;
+    
+    for (char c : phone) {
+        if (!isdigit(c) && c != '+' && c != '-' && c != '(' && c != ')' && c != ' ') {
+            return false;
+        }
+    }
+    
+    int digitCount = 0;
+    for (char c : phone) {
+        if (isdigit(c)) digitCount++;
+    }
+    
+    return digitCount >= 10;
+}
+
+void InputUtils::clearScreen() {
+    std::cout << "\033[2J\033[1;1H";
+}
+
+void InputUtils::pause() {
+    std::cout << "\nНажмите Enter для продолжения...";
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+std::string StringUtils::toLowerCase(const std::string& str) {
+    std::string result = str;
+    for (char& c : result) {
+        c = tolower(c);
+    }
+    return result;
+}
+
+std::string StringUtils::trim(const std::string& str) {
+    size_t first = str.find_first_not_of(' ');
+    if (first == std::string::npos) return "";
+    
+    size_t last = str.find_last_not_of(' ');
+    return str.substr(first, last - first + 1);
+}
+
+bool StringUtils::containsOnlyLetters(const std::string& str) {
+    for (char c : str) {
+        if (!isalpha(c) && c != ' ') {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool StringUtils::containsOnlyDigits(const std::string& str) {
+    for (char c : str) {
+        if (!isdigit(c)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+
+class UI {
+public:
+    static void showMainMenu();
+    static void showCustomerMenu();
+    static void showProductMenu();
+    static void showOrderMenu();
+    static void showReportMenu();
+    
+    static void showHeader(const std::string& title);
+    static void showSeparator();
+    static void showMessage(const std::string& message);
+    static void showError(const std::string& error);
+    static void showSuccess(const std::string& message);
+};
+
+void UI::showHeader(const std::string& title) {
+    std::cout << "\n";
+    showSeparator();
+    std::cout << "  " << title << "\n";
+    showSeparator();
+}
+
+void UI::showSeparator() {
+    std::cout << std::string(50, '=') << "\n";
+}
+
+void UI::showMessage(const std::string& message) {
+    std::cout << "> " << message << "\n";
+}
+
+void UI::showError(const std::string& error) {
+    std::cout << "[ОШИБКА] " << error << "\n";
+}
+
+void UI::showSuccess(const std::string& message) {
+    std::cout << "[УСПЕХ] " << message << "\n";
+}
+
+void UI::showMainMenu() {
+    showHeader("ИНТЕРНЕТ-МАГАЗИН - ГЛАВНОЕ МЕНЮ");
+    std::cout << "  1. Клиенты\n";
+    std::cout << "  2. Товары\n";
+    std::cout << "  3. Заказы\n";
+    std::cout << "  4. Отчеты\n";
+    std::cout << "  5. Загрузить тестовые данные\n";
+    std::cout << "  0. Выход\n";
+    showSeparator();
+    std::cout << "Выбор: ";
+}
+
+void UI::showCustomerMenu() {
+    showHeader("УПРАВЛЕНИЕ КЛИЕНТАМИ");
+    std::cout << "  1. Показать всех клиентов\n";
+    std::cout << "  2. Добавить клиента\n";
+    std::cout << "  3. Найти клиента по ID\n";
+    std::cout << "  4. Найти клиента по имени\n";
+    std::cout << "  0. Назад\n";
+    showSeparator();
+    std::cout << "Выбор: ";
+}
+
+void UI::showProductMenu() {
+    showHeader("УПРАВЛЕНИЕ ТОВАРАМИ");
+    std::cout << "  1. Показать все товары\n";
+    std::cout << "  2. Добавить товар\n";
+    std::cout << "  3. Найти товар по ID\n";
+    std::cout << "  4. Найти товар по названию\n";
+    std::cout << "  5. Показать категории\n";
+    std::cout << "  6. Добавить категорию\n";
+    std::cout << "  0. Назад\n";
+    showSeparator();
+    std::cout << "Выбор: ";
+}
+
+void UI::showOrderMenu() {
+    showHeader("УПРАВЛЕНИЕ ЗАКАЗАМИ");
+    std::cout << "  1. Показать все заказы\n";
+    std::cout << "  2. Создать новый заказ\n";
+    std::cout << "  3. Найти заказ по ID\n";
+    std::cout << "  4. Изменить статус заказа\n";
+    std::cout << "  0. Назад\n";
+    showSeparator();
+    std::cout << "Выбор: ";
+}
+
+void UI::showReportMenu() {
+    showHeader("ОТЧЕТЫ");
+    std::cout << "  1. Статистика магазина\n";
+    std::cout << "  2. Товары с низким остатком\n";
+    std::cout << "  3. Продажи по категориям\n";
+    std::cout << "  0. Назад\n";
+    showSeparator();
+    std::cout << "Выбор: ";
+}
+
+
+
+class AppController {
+public:
+    static void run();
+    
+private:
+    static void handleMainMenu();
+    static void handleCustomerMenu();
+    static void handleProductMenu();
+    static void handleOrderMenu();
+    static void handleReportMenu();
+    
+    static void addCustomer();
+    static void findCustomerById();
+    static void findCustomerByName();
+    static void displayAllCustomers();
+    
+    static void addProduct();
+    static void findProductById();
+    static void findProductByName();
+    static void addCategory();
+    static void showAllCategories();
+    static void displayAllProducts();
+    
+    static void createOrder();
+    static void findOrderById();
+    static void updateOrderStatus();
+    static void displayAllOrders();
+    
+    static void showStoreStatistics();
+    static void showLowStockProducts();
+    static void showSalesByCategory();
+    
+    static void loadSampleData();
+};
+
+void AppController::run() {
+    InputUtils::clearScreen();
+    UI::showMessage("Добро пожаловать в систему управления интернет-магазином!");
+    
+    while (true) {
+        UI::showMainMenu();
+        int choice = InputUtils::getIntegerInput("", 0, 5);
+        
+        switch (choice) {
+            case 1: handleCustomerMenu(); break;
+            case 2: handleProductMenu(); break;
+            case 3: handleOrderMenu(); break;
+            case 4: handleReportMenu(); break;
+            case 5: loadSampleData(); break;
+            case 0: 
+                UI::showMessage("Спасибо за использование программы!");
+                return;
+        }
+    }
+}
+
+void AppController::handleCustomerMenu() {
+    while (true) {
+        InputUtils::clearScreen();
+        UI::showCustomerMenu();
+        int choice = InputUtils::getIntegerInput("", 0, 4);
+        
+        if (choice == 0) break;
+        
+        InputUtils::clearScreen();
+        switch (choice) {
+            case 1: displayAllCustomers(); break;
+            case 2: addCustomer(); break;
+            case 3: findCustomerById(); break;
+            case 4: findCustomerByName(); break;
+        }
+        InputUtils::pause();
+    }
+}
+
+void AppController::handleProductMenu() {
+    while (true) {
+        InputUtils::clearScreen();
+        UI::showProductMenu();
+        int choice = InputUtils::getIntegerInput("", 0, 6);
+        
+        if (choice == 0) break;
+        
+        InputUtils::clearScreen();
+        switch (choice) {
+            case 1: displayAllProducts(); break;
+            case 2: addProduct(); break;
+            case 3: findProductById(); break;
+            case 4: findProductByName(); break;
+            case 5: showAllCategories(); break;
+            case 6: addCategory(); break;
+        }
+        InputUtils::pause();
+    }
+}
+
+void AppController::handleOrderMenu() {
+    while (true) {
+        InputUtils::clearScreen();
+        UI::showOrderMenu();
+        int choice = InputUtils::getIntegerInput("", 0, 4);
+        
+        if (choice == 0) break;
+        
+        InputUtils::clearScreen();
+        switch (choice) {
+            case 1: displayAllOrders(); break;
+            case 2: createOrder(); break;
+            case 3: findOrderById(); break;
+            case 4: updateOrderStatus(); break;
+        }
+        InputUtils::pause();
+    }
+}
+
+void AppController::handleReportMenu() {
+    while (true) {
+        InputUtils::clearScreen();
+        UI::showReportMenu();
+        int choice = InputUtils::getIntegerInput("", 0, 3);
+        
+        if (choice == 0) break;
+        
+        InputUtils::clearScreen();
+        switch (choice) {
+            case 1: showStoreStatistics(); break;
+            case 2: showLowStockProducts(); break;
+            case 3: showSalesByCategory(); break;
+        }
+        InputUtils::pause();
+    }
+}
+
+void AppController::addCustomer() {
+    UI::showHeader("ДОБАВЛЕНИЕ КЛИЕНТА");
+    
+    std::string lastName = InputUtils::getStringInput("Фамилия: ", 2, 50);
+    std::string firstName = InputUtils::getStringInput("Имя: ", 2, 50);
+    std::string patronymic = InputUtils::getStringInput("Отчество: ", 0, 50);
+    std::string email = InputUtils::getEmailInput("Email: ");
+    std::string phone = InputUtils::getPhoneInput("Телефон: ");
+    
+    Database& db = Database::getInstance();
+    int id = db.getNextCustomerId();
+    Customer customer(id, lastName, firstName, patronymic, email, phone);
+    db.addCustomer(customer);
+    
+    UI::showSuccess("Клиент добавлен с ID: " + std::to_string(id));
+}
+
+void AppController::displayAllCustomers() {
+    UI::showHeader("ВСЕ КЛИЕНТЫ");
+    
+    Database& db = Database::getInstance();
+    const std::vector<Customer>& customers = db.getAllCustomers();
+    
+    if (customers.empty()) {
+        UI::showMessage("Клиенты не найдены.");
+        return;
+    }
+    
+    for (const auto& customer : customers) {
+        customer.display();
+    }
+    UI::showMessage("Всего клиентов: " + std::to_string(customers.size()));
+}
+
+void AppController::findCustomerById() {
+    UI::showHeader("ПОИСК КЛИЕНТА ПО ID");
+    int id = InputUtils::getIntegerInput("Введите ID клиента: ", 1, 10000);
+    
+    Database& db = Database::getInstance();
+    Customer* customer = db.findCustomerById(id);
+    
+    if (customer) {
+        customer->display();
+    } else {
+        UI::showError("Клиент с ID " + std::to_string(id) + " не найден.");
+    }
+}
+
+void AppController::findCustomerByName() {
+    UI::showHeader("ПОИСК КЛИЕНТА ПО ИМЕНИ");
+    std::string name = InputUtils::getStringInput("Введите имя или фамилию: ", 2, 50);
+    
+    Database& db = Database::getInstance();
+    std::vector<Customer*> customers = db.findCustomersByName(name);
+    
+    if (customers.empty()) {
+        UI::showError("Клиенты не найдены.");
+        return;
+    }
+    
+    for (auto customer : customers) {
+        customer->display();
+    }
+    UI::showMessage("Найдено клиентов: " + std::to_string(customers.size()));
+}
+
+void AppController::addProduct() {
+    UI::showHeader("ДОБАВЛЕНИЕ ТОВАРА");
+    
+    showAllCategories();
+    
+    std::string name = InputUtils::getStringInput("Название товара: ", 3, 100);
+    std::string description = InputUtils::getStringInput("Описание: ", 0, 500);
+    int categoryId = InputUtils::getIntegerInput("ID категории: ", 1, 10000);
+    double price = InputUtils::getDoubleInput("Цена: ", 0.01, 1000000.0);
+    int stock = InputUtils::getIntegerInput("Количество на складе: ", 0, 10000);
+    
+    Database& db = Database::getInstance();
+    
+    if (!db.findCategoryById(categoryId)) {
+        UI::showError("Категория с ID " + std::to_string(categoryId) + " не найдена.");
+        return;
+    }
+    
+    int id = db.getNextProductId();
+    Product product(id, name, description, categoryId, price, stock);
+    db.addProduct(product);
+    
+    UI::showSuccess("Товар добавлен с ID: " + std::to_string(id));
+}
+
+void AppController::displayAllProducts() {
+    UI::showHeader("ВСЕ ТОВАРЫ");
+    
+    Database& db = Database::getInstance();
+    const std::vector<Product>& products = db.getAllProducts();
+    
+    if (products.empty()) {
+        UI::showMessage("Товары не найдены.");
+        return;
+    }
+    
+    for (const auto& product : products) {
+        product.display();
+    }
+    UI::showMessage("Всего товаров: " + std::to_string(products.size()));
+}
+
+void AppController::addCategory() {
+    UI::showHeader("ДОБАВЛЕНИЕ КАТЕГОРИИ");
+    
+    std::string name = InputUtils::getStringInput("Название категории: ", 3, 100);
+    std::string description = InputUtils::getStringInput("Описание: ", 0, 500);
+    
+    Database& db = Database::getInstance();
+    int id = db.getNextCategoryId();
+    ProductCategory category(id, name, description);
+    db.addCategory(category);
+    
+    UI::showSuccess("Категория добавлена с ID: " + std::to_string(id));
+}
+
+void AppController::showAllCategories() {
+    UI::showHeader("ВСЕ КАТЕГОРИИ");
+    
+    Database& db = Database::getInstance();
+    const std::vector<ProductCategory>& categories = db.getAllCategories();
+    
+    if (categories.empty()) {
+        UI::showMessage("Категории не найдены.");
+        return;
+    }
+    
+    for (const auto& category : categories) {
+        category.display();
+    }
+    UI::showMessage("Всего категорий: " + std::to_string(categories.size()));
+}
+
+void AppController::createOrder() {
+    UI::showHeader("СОЗДАНИЕ ЗАКАЗА");
+    
+    displayAllCustomers();
+    
+    int customerId = InputUtils::getIntegerInput("ID клиента: ", 1, 10000);
+    
+    Database& db = Database::getInstance();
+    Customer* customer = db.findCustomerById(customerId);
+    if (!customer) {
+        UI::showError("Клиент не найден.");
+        return;
+    }
+    
+    int orderId = db.getNextOrderId();
+    Order order(orderId, customerId, 0);
+    
+    UI::showMessage("Добавление товаров в заказ (0 для завершения):");
+    
+    while (true) {
+        displayAllProducts();
+        int productId = InputUtils::getIntegerInput("ID товара (0 - завершить): ", 0, 10000);
+        
+        if (productId == 0) break;
+        
+        Product* product = db.findProductById(productId);
+        if (!product) {
+            UI::showError("Товар не найден.");
+            continue;
+        }
+        
+        int quantity = InputUtils::getIntegerInput("Количество: ", 1, product->getStockQuantity());
+        order.addItem(OrderItem(productId, quantity, product->getPrice()));
+        
+        UI::showSuccess("Товар добавлен в заказ.");
+    }
+    
+    if (order.getItems().empty()) {
+        UI::showError("Заказ не может быть пустым.");
+        return;
+    }
+    
+    std::string notes = InputUtils::getStringInput("Примечания к заказу: ", 0, 200);
+    order.setNotes(notes);
+    
+    db.addOrder(order);
+    
+    for (const auto& item : order.getItems()) {
+        db.updateProductStock(item.getProductId(), -item.getQuantity());
+    }
+    
+    UI::showSuccess("Заказ создан с ID: " + std::to_string(orderId));
+    order.displayDetailed();
+}
+
+void AppController::displayAllOrders() {
+    UI::showHeader("ВСЕ ЗАКАЗЫ");
+    
+    Database& db = Database::getInstance();
+    const std::vector<Order>& orders = db.getAllOrders();
+    
+    if (orders.empty()) {
+        UI::showMessage("Заказы не найдены.");
+        return;
+    }
+    
+    for (const auto& order : orders) {
+        order.display();
+    }
+    UI::showMessage("Всего заказов: " + std::to_string(orders.size()));
+}
+
+void AppController::findOrderById() {
+    UI::showHeader("ПОИСК ЗАКАЗА ПО ID");
+    int id = InputUtils::getIntegerInput("Введите ID заказа: ", 1, 10000);
+    
+    Database& db = Database::getInstance();
+    Order* order = db.findOrderById(id);
+    
+    if (order) {
+        order->displayDetailed();
+    } else {
+        UI::showError("Заказ с ID " + std::to_string(id) + " не найден.");
+    }
+}
+
+void AppController::updateOrderStatus() {
+    UI::showHeader("ИЗМЕНЕНИЕ СТАТУСА ЗАКАЗА");
+    
+    int id = InputUtils::getIntegerInput("Введите ID заказа: ", 1, 10000);
+    
+    Database& db = Database::getInstance();
+    Order* order = db.findOrderById(id);
+    
+    if (!order) {
+        UI::showError("Заказ не найден.");
+        return;
+    }
+    
+    std::cout << "Текущий статус: " << order->getStatusString() << "\n";
+    std::cout << "Выберите новый статус:\n";
+    std::cout << "1. Создан\n2. Оплачен\n3. Собран\n4. Отправлен\n5. Доставлен\n6. Отменен\n";
+    
+    int statusChoice = InputUtils::getIntegerInput("Выбор: ", 1, 6);
+    OrderStatus newStatus;
+    
+    switch (statusChoice) {
+        case 1: newStatus = OrderStatus::CREATED; break;
+        case 2: newStatus = OrderStatus::PAID; break;
+        case 3: newStatus = OrderStatus::ASSEMBLED; break;
+        case 4: newStatus = OrderStatus::SHIPPED; break;
+        case 5: newStatus = OrderStatus::DELIVERED; break;
+        case 6: newStatus = OrderStatus::CANCELLED; break;
+        default: newStatus = OrderStatus::CREATED;
+    }
+    
+    if (db.updateOrderStatus(id, newStatus)) {
+        UI::showSuccess("Статус заказа обновлен.");
+    } else {
+        UI::showError("Ошибка при обновлении статуса.");
+    }
+}
+
+void AppController::showStoreStatistics() {
+    UI::showHeader("СТАТИСТИКА МАГАЗИНА");
+    
+    Database& db = Database::getInstance();
+    
+    std::cout << "Количество клиентов: " << db.getCustomerCount() << "\n";
+    std::cout << "Количество товаров: " << db.getProductCount() << "\n";
+    std::cout << "Количество заказов: " << db.getOrderCount() << "\n";
+    std::cout << "Количество категорий: " << db.getCategoryCount() << "\n";
+    std::cout << "------------------------\n";
+    
+    const std::vector<Order>& orders = db.getAllOrders();
+    double totalSales = 0.0;
+    for (const auto& order : orders) {
+        totalSales += order.getTotalAmount();
+    }
+    
+    std::cout << "Общая выручка: " << std::fixed << std::setprecision(2) 
+              << totalSales << " руб.\n";
+    std::cout << "Средний чек: " << (orders.empty() ? 0 : totalSales / orders.size()) 
+              << " руб.\n";
+}
+
+void AppController::showLowStockProducts() {
+    UI::showHeader("ТОВАРЫ С НИЗКИМ ОСТАТКОМ");
+    
+    Database& db = Database::getInstance();
+    const std::vector<Product>& products = db.getAllProducts();
+    
+    int lowStockCount = 0;
+    const int LOW_STOCK_THRESHOLD = 5;
+    
+    for (const auto& product : products) {
+        if (product.getStockQuantity() <= LOW_STOCK_THRESHOLD) {
+            product.display();
+            lowStockCount++;
+        }
+    }
+    
+    if (lowStockCount == 0) {
+        UI::showMessage("Все товары в достаточном количестве.");
+    } else {
+        UI::showMessage("Товаров с низким остатком: " + std::to_string(lowStockCount));
+    }
+}
+
+void AppController::showSalesByCategory() {
+    UI::showHeader("ПРОДАЖИ ПО КАТЕГОРИЯМ");
+    
+    Database& db = Database::getInstance();
+    const std::vector<ProductCategory>& categories = db.getAllCategories();
+    const std::vector<Order>& orders = db.getAllOrders();
+    
+    std::map<int, double> categorySales;
+    std::map<int, std::string> categoryNames;
+    
+    for (const auto& category : categories) {
+        categorySales[category.getId()] = 0.0;
+        categoryNames[category.getId()] = category.getName();
+    }
+    
+    for (const auto& order : orders) {
+        for (const auto& item : order.getItems()) {
+            Product* product = db.findProductById(item.getProductId());
+            if (product) {
+                categorySales[product->getCategoryId()] += item.getTotalPrice();
+            }
+        }
+    }
+    
+    std::cout << std::left << std::setw(20) << "Категория" 
+              << std::right << std::setw(15) << "Выручка" << "\n";
+    std::cout << std::string(35, '-') << "\n";
+    
+    double total = 0.0;
+    for (const auto& [categoryId, sales] : categorySales) {
+        if (sales > 0) {
+            std::cout << std::left << std::setw(20) << categoryNames[categoryId]
+                      << std::right << std::setw(15) << std::fixed 
+                      << std::setprecision(2) << sales << " руб.\n";
+            total += sales;
+        }
+    }
+    
+    std::cout << std::string(35, '-') << "\n";
+    std::cout << std::left << std::setw(20) << "ИТОГО"
+              << std::right << std::setw(15) << std::fixed 
+              << std::setprecision(2) << total << " руб.\n";
+}
+
+void AppController::findProductById() {
+    UI::showHeader("ПОИСК ТОВАРА ПО ID");
+    int id = InputUtils::getIntegerInput("Введите ID товара: ", 1, 10000);
+    
+    Database& db = Database::getInstance();
+    Product* product = db.findProductById(id);
+    
+    if (product) {
+        product->display();
+    } else {
+        UI::showError("Товар с ID " + std::to_string(id) + " не найден.");
+    }
+}
+
+void AppController::findProductByName() {
+    UI::showHeader("ПОИСК ТОВАРА ПО НАЗВАНИЮ");
+    std::string name = InputUtils::getStringInput("Введите название товара: ", 2, 100);
+    
+    Database& db = Database::getInstance();
+    std::vector<Product*> products = db.findProductsByName(name);
+    
+    if (products.empty()) {
+        UI::showError("Товары не найдены.");
+        return;
+    }
+    
+    for (auto product : products) {
+        product->display();
+    }
+    UI::showMessage("Найдено товаров: " + std::to_string(products.size()));
+}
+
+void AppController::loadSampleData() {
+    Database& db = Database::getInstance();
+    db.initializeSampleData();
+    UI::showSuccess("Тестовые данные загружены!");
+}
+
+
+
+int main() {
+    AppController::run();
+    return 0;
+}
